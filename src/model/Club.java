@@ -1,5 +1,15 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Club implements Comparable<Club> {
@@ -14,13 +24,18 @@ public class Club implements Comparable<Club> {
 	 * @param name
 	 * @param creationDate
 	 * @param petType
+	 * @throws IOException 
 	 */
-	public Club(String id, String name, String creationDate, String petType) {
+	public Club(String id, String name, String creationDate, String petType) throws IOException {
 		this.id = id;
 		this.name = name;
 		this.creationDate = creationDate;
 		this.petType = petType;
 		owners = new ArrayList<>();
+		if(!new File(id).exists()) {
+			new File(id).createNewFile();
+		}
+		loadData();
 	}
 	
 	/**
@@ -94,7 +109,17 @@ public class Club implements Comparable<Club> {
 	}
 
 	@Override
+	public String toString() {
+		return "Club [id=" + id + ", name=" + name + ", creationDate=" + creationDate + ", petType=" + petType
+				+ ", owners=" + owners + "]";
+	}
+
+	@Override
 	public int compareTo(Club c) {
+		return owners.size()-c.getOwners().size();
+	}
+	
+	public int compareId(Club c) {
 		return id.compareTo(c.getId());
 	}
 	
@@ -129,7 +154,281 @@ public class Club implements Comparable<Club> {
 	}
 	
 	public void orderOwners() {
+		for (int  i= 0;  i< owners.size()-1; i++) {
+			for (int j = 0; j < owners.size()-1-i; j++) {
+				if (owners.get(j).compareTo(owners.get(j+1))>0) {
+					Owner tmp = owners.get(j);
+					owners.set(j, owners.get(j+1));
+					owners.set(j+1, tmp);
+				}
+			}
+		}
+	}
+	
+	public void orderOwnerNames() {
+		for (int i = 0; i < owners.size()-1; i++) {
+			Owner menor = owners.get(i);
+			int cual = i;
+			for (int j = i+1; j < owners.size(); j++) {
+				if(owners.get(j).compareName(menor)<0) {
+					menor = owners.get(j);
+					cual = j;
+				}
+				
+			}
+			Owner tmp = owners.get(i);
+			owners.set(i, menor);
+			owners.set(cual, tmp);
+		}
+	}
+	
+	public void orderOwnerId() {
+		for (int i = 1; i < owners.size(); i++) {
+			for (int j = i; j > 0 && owners.get(j-1).compareId(owners.get(j))>0; j--) {
+				Owner tmp = owners.get(j);
+				owners.set(j, owners.get(j-1));
+				owners.set(j-1, tmp);
+			}
+		}
+	}
+	
+	public void orderOwnerBirth() {
+		for (int i = 1; i < owners.size(); i++) {
+			for (int j = i; j > 0 && owners.get(j-1).compareBirth(owners.get(j))>0; j--) {
+				Owner tmp = owners.get(j);
+				owners.set(j, owners.get(j-1));
+				owners.set(j-1, tmp);
+			}
+		}
+	}
+	
+	public void orderOwnerPetType() {
+		for (int i = 0; i < owners.size()-1; i++) {
+			Owner menor = owners.get(i);
+			int cual = i;
+			for (int j = i+1; j < owners.size(); j++) {
+				if(owners.get(j).comparePetType(menor)<0) {
+					menor = owners.get(j);
+					cual = j;
+				}
+				
+			}
+			Owner tmp = owners.get(i);
+			owners.set(i, menor);
+			owners.set(cual, tmp);
+		}
+	}
+	
+	public void orderOwnerLastName() {
+		for (int i = 1; i < owners.size(); i++) {
+			for (int j = i; j > 0 && owners.get(j-1).compareLastName(owners.get(j))>0; j--) {
+				Owner tmp = owners.get(j);
+				owners.set(j, owners.get(j-1));
+				owners.set(j-1, tmp);
+			}
+		}
+	}
+	
+	public void saveData() throws FileNotFoundException, IOException {
+		File file = new File(id);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		writer.write("");
+		writer.close();
+		ObjectOutputStream object = new ObjectOutputStream(new FileOutputStream(file));
+		for (int i = 0; i < owners.size(); i++) {
+			object.writeObject(owners.get(i));
+		}
+		object.close();
+	}
+	
+	public void loadData() {
+		File file = new File(id);
+		try {
+			ObjectInputStream object = new ObjectInputStream(new FileInputStream(file));
+			owners = (ArrayList<Owner>)object.readObject();
+		}catch(Exception exception){
+			
+		}
+	}
+	
+	public String tradSearchName(String n) {
+		String msg = "There is not owner with that name.";
+		int count = 0;
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getName().equals(n)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 owner with that same name.";
+		}else if(count > 1) {
+			msg = "There are " + count + " owners with that same name.";
+		}
 		
+		return msg;
+	}
+	
+	public String tradSearchLastName(String l) {
+		String msg = "There is not owner with that last name.";
+		int count = 0;
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getLastName().equals(l)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 owner with that same last name.";
+		}else if(count > 1) {
+			msg = "There are " + count + " owners with that same last name.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchId(String identification) {
+		String msg = "There is not owner with that identification.";
+		int count = 0;
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getId().equals(identification)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 owner with that same identification.";
+		}else if(count > 1) {
+			msg = "There are " + count + " owners with that same identification.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchBirth(String birthD) {
+		String msg = "There is not owner with that birth date.";
+		int count = 0;
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getBirth().equals(birthD)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 owner with that same birth date.";
+		}else if(count > 1) {
+			msg = "There are " + count + " owners with that same birth date.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchType(String petType) {
+		String msg = "There is not owner with that type.";
+		int count = 0;
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getPetType().equals(petType)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 owner with that same type.";
+		}else if(count > 1) {
+			msg = "There are " + count + " owners with that same type.";
+		}
+		
+		return msg;
+	}
+	
+	public boolean binSearchName(String n) {
+		boolean finded = false;
+		int i = 0;
+		int fin = owners.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(owners.get(mid).getName().equals(n)) {
+				finded = true;
+			}
+			else if(owners.get(mid).getName().compareTo(n)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchLastName(String l) {
+		boolean finded = false;
+		int i = 0;
+		int fin = owners.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(owners.get(mid).getLastName().equals(l)) {
+				finded = true;
+			}
+			else if(owners.get(mid).getLastName().compareTo(l)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchId(String identification) {
+		boolean finded = false;
+		int i = 0;
+		int fin = owners.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(owners.get(mid).getId().equals(identification)) {
+				finded = true;
+			}
+			else if(owners.get(mid).getId().compareTo(identification)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchBirth(String birthDate) {
+		boolean finded = false;
+		int i = 0;
+		int fin = owners.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(owners.get(mid).getBirth().equals(birthDate)) {
+				finded = true;
+			}
+			else if(owners.get(mid).getBirth().compareTo(birthDate)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchType(String type) {
+		boolean finded = false;
+		int i = 0;
+		int fin = owners.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(owners.get(mid).getPetType().equals(type)) {
+				finded = true;
+			}
+			else if(owners.get(mid).getPetType().compareTo(type)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
 	}
 }
 

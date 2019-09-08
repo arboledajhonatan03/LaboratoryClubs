@@ -167,4 +167,250 @@ public class Owner implements Serializable, Comparable<Owner> {
 			}
 		}
 	}
+	
+	public void orderPetNames() {
+		for (int i = 0; i < pets.size()-1; i++) {
+			Pet menor = pets.get(i);
+			int cual = i;
+			for (int j = i+1; j < pets.size(); j++) {
+				if(pets.get(j).compareName(menor)<0) {
+					menor = pets.get(j);
+					cual = j;
+				}
+				
+			}
+			Pet tmp = pets.get(i);
+			pets.set(i, menor);
+			pets.set(cual, tmp);
+		}
+	}
+	
+	public void orderPetId() {
+		for (int i = 1; i < pets.size(); i++) {
+			for (int j = i; j > 0 && pets.get(j-1).compareId(pets.get(j))>0; j--) {
+				Pet tmp = pets.get(j);
+				pets.set(j, pets.get(j-1));
+				pets.set(j-1, tmp);
+			}
+		}
+	}
+	
+	public void orderPetSex() {
+		for (int  i= 0;  i< pets.size()-1; i++) {
+			for (int j = 0; j < pets.size()-1-i; j++) {
+				if (pets.get(j).compareSex(pets.get(j+1))>0) {
+					Pet tmp = pets.get(j);
+					pets.set(j, pets.get(j+1));
+					pets.set(j+1, tmp);
+				}
+			}
+		}
+	}
+	
+	public void orderPetType() {
+		for (int i = 0; i < pets.size()-1; i++) {
+			Pet menor = pets.get(i);
+			int cual = i;
+			for (int j = i+1; j < pets.size(); j++) {
+				if(pets.get(j).compareType(menor)<0) {
+					menor = pets.get(j);
+					cual = j;
+				}
+				
+			}
+			Pet tmp = pets.get(i);
+			pets.set(i, menor);
+			pets.set(cual, tmp);
+		}
+	}
+	
+	public void orderPetBirth() {
+		for (int i = 1; i < pets.size(); i++) {
+			for (int j = i; j > 0 && pets.get(j-1).compareBirth(pets.get(j))>0; j--) {
+				Pet tmp = pets.get(j);
+				pets.set(j, pets.get(j-1));
+				pets.set(j-1, tmp);
+			}
+		}
+	}
+	
+	public String tradSearchName(String n) {
+		String msg = "There is not pets with that name.";
+		int count = 0;
+		for (int i = 0; i < pets.size(); i++) {
+			if(pets.get(i).getName().equals(n)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 pet with that same name.";
+		}else if(count > 1) {
+			msg = "There are " + count + " pets with that same name.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchId(String Id) {
+		String msg = "There is not pets with that identification.";
+		int count = 0;
+		for (int i = 0; i < pets.size(); i++) {
+			if(pets.get(i).getId().equals(Id)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 pet with that same identification.";
+		}else if(count > 1) {
+			msg = "There are " + count + " pets with that same identification.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchSex(int sex) {
+		String msg = "There is not pets with that sex.";
+		int count = 0;
+		for (int i = 0; i < pets.size(); i++) {
+			if(pets.get(i).getSex()==sex) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 pet with that same sex.";
+		}else if(count > 1) {
+			msg = "There are " + count + " pets with that same sex.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchType(String type) {
+		String msg = "There is not pets of that type.";
+		int count = 0;
+		for (int i = 0; i < pets.size(); i++) {
+			if(pets.get(i).getType().equals(type)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is one pet of that same type.";
+		}else if(count > 1) {
+			msg = "There are " + count + " pets of that same type.";
+		}
+		
+		return msg;
+	}
+	
+	public String tradSearchBirth(String birthDate) {
+		String msg = "There is not pets with that birth date.";
+		int count = 0;
+		for (int i = 0; i < pets.size(); i++) {
+			if(pets.get(i).getBirth().equals(birthDate)) {
+				count++;
+			}
+		}
+		if(count == 1) {
+			msg = "There is 1 pet with that same birth date.";
+		}else if(count > 1) {
+			msg = "There are " + count + " pets with that same birth date.";
+		}
+		
+		return msg;
+	}
+	
+	public boolean binSearchName(String n) {
+		boolean finded = false;
+		int i = 0;
+		int fin = pets.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(pets.get(mid).getName().equals(n)) {
+				finded = true;
+			}
+			else if(pets.get(mid).getName().compareTo(n)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchId(String identification) {
+		boolean finded = false;
+		int i = 0;
+		int fin = pets.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(pets.get(mid).getId().equals(identification)) {
+				finded = true;
+			}
+			else if(pets.get(mid).getId().compareTo(identification)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchSex(int sex) {
+		boolean finded = false;
+		int i = 0;
+		int fin = pets.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(pets.get(mid).getSex() == sex) {
+				finded = true;
+			}
+			else if(pets.get(mid).getSex()>sex) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchType(String type) {
+		boolean finded = false;
+		int i = 0;
+		int fin = pets.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(pets.get(mid).getType().equals(type)) {
+				finded = true;
+			}
+			else if(pets.get(mid).getType().compareTo(type)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
+	
+	public boolean binSearchBirth(String birthDate) {
+		boolean finded = false;
+		int i = 0;
+		int fin = pets.size()-1;
+		while(i <= fin && !finded) {
+			int mid = (i+fin)/2;
+			if(pets.get(mid).getBirth().equals(birthDate)) {
+				finded = true;
+			}
+			else if(pets.get(mid).getBirth().compareTo(birthDate)>0) {
+				fin = mid - 1;
+			}
+			else {
+				i = mid + 1;
+			}
+		}
+		return finded;
+	}
 }
