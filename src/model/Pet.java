@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class Pet implements Serializable {
 	
-	public static final int MALE = 0;
-	public static final int FEMALE = 1;
+	public static final int MALE = 1;
+	public static final int FEMALE = 2;
 	
 	private String name;
 	private String id;

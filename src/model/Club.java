@@ -26,14 +26,19 @@ public class Club implements Comparable<Club> {
 	 * @param petType
 	 * @throws IOException 
 	 */
-	public Club(String id, String name, String creationDate, String petType) throws IOException {
+	public Club(String id, String name, String creationDate, String petType) {
 		this.id = id;
 		this.name = name;
 		this.creationDate = creationDate;
 		this.petType = petType;
 		owners = new ArrayList<>();
 		if(!new File(id).exists()) {
-			new File(id).createNewFile();
+			try {
+				new File(id).createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		loadData();
 	}
@@ -430,5 +435,43 @@ public class Club implements Comparable<Club> {
 		}
 		return finded;
 	}
+	
+	public String tradSearchNamePet(String n) {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg = owners.get(i).tradSearchName(n);
+		}
+		return msg;
+	}
+	public String tradSearchIdPet(String n) {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg = owners.get(i).tradSearchId(n);
+		}
+		return msg;
+	}
+	public String tradSearchSexPet(int n) {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg = owners.get(i).tradSearchSex(n);
+		}
+		return msg;
+	}
+	public String tradSearchTypePet(String n) {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg = owners.get(i).tradSearchType(n);
+		}
+		return msg;
+	}
+	public String tradSearchBirthPet(String n) {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg = owners.get(i).tradSearchBirth(n);
+		}
+		return msg;
+	}
 }
+
+
 

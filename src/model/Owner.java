@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Owner implements Serializable, Comparable<Owner> {
+public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner> {
 	
 	private String name;
 	private String lastName;
@@ -412,5 +413,11 @@ public class Owner implements Serializable, Comparable<Owner> {
 			}
 		}
 		return finded;
+	}
+
+	@Override
+	public int compare(Owner o1, Owner o2) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

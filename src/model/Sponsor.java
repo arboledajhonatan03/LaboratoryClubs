@@ -9,14 +9,19 @@ import java.util.ArrayList;
 
 public class Sponsor {
 
-	public static final String ARCHIVE_PLANE = "C:\\Users\\KD35\\Documents\\ws\\LaboratoryClubs\\archivo1.csv";
-	public static final String ARCHIVE_SERIALIZABLE = "C:\\Users\\KD35\\Documents\\ws\\Club\\Owners.txt";
+	public static final String ARCHIVE_PLANE = "C:\\Users\\KD35\\Documents\\ws\\LaboratoryClubs\\";
+	public static final String ARCHIVE_SERIALIZABLE = "C:\\Users\\KD35\\Documents\\ws\\Club";
 	
 	private ArrayList<Club> clubs;
 	
-	public Sponsor() throws ClassNotFoundException, IOException {
+	public Sponsor() {
 		clubs = new ArrayList<>();
-		loadData();
+		try {
+			loadData();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void addOwner(Owner o, String idClub) throws SameObject{
@@ -270,4 +275,56 @@ public class Sponsor {
 		}
 		return finded;
 	}
+	
+	public void init(){
+		Club c1 = new Club ("123456789", "Lake's club", "2002/01/14", "Leopard");
+		Club c2 = new Club ("151613549", "Figth's club", "2001/12/14", "Tiger");
+		Club c3 = new Club ("145165864", "Club putipets", "2000/06/21", "Panda bear");
+		Club c4 = new Club ("123458989", "White club", "2001/02/22", "Monkey");
+		Club c5 = new Club ("193484359", "Cuellares club", "2000/04/30", "Hamster");
+		addClub(c1);
+		addClub(c2);
+		addClub(c3);
+		addClub(c4);
+		addClub(c5);
+		
+	}
+	
+	public String tradSearchNamePet(String n) {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg = clubs.get(i).tradSearchNamePet(n);
+		}
+		return msg;
+	}
+	public String tradSearchIdPet(String n) {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg = clubs.get(i).tradSearchIdPet(n);
+		}
+		return msg;
+	}
+	public String tradSearchSexPet(int n) {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg = clubs.get(i).tradSearchSexPet(n);
+		}
+		return msg;
+	}
+	public String tradSearchTypePet(String n) {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg = clubs.get(i).tradSearchTypePet(n);
+		}
+		return msg;
+	}
+	public String tradSearchBirthPet(String n) {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg = clubs.get(i).tradSearchBirthPet(n);
+		}
+		return msg;
+	}
+	
+	
 }
