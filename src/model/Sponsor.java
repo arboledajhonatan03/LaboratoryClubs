@@ -16,14 +16,30 @@ public class Sponsor {
 	
 	public Sponsor() {
 		clubs = new ArrayList<>();
-		try {
-			loadData();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			loadData();
+//		} catch (ClassNotFoundException | IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
+	
+	/**
+	 * @return the clubs
+	 */
+	public ArrayList<Club> getClubs() {
+		return clubs;
+	}
+
+
+	/**
+	 * @param clubs the clubs to set
+	 */
+	public void setClubs(ArrayList<Club> clubs) {
+		this.clubs = clubs;
+	}
+
+
 	public void addOwner(Owner o, String idClub) throws SameObject{
 		boolean equal = false;
 		for(int i=0; i<clubs.size() && !equal; i++){
@@ -40,7 +56,8 @@ public class Sponsor {
 				}
 			}
 		} else {
-			throw new SameObject();
+			String msg = "already exists a owner with that same information!";
+			throw new SameObject(msg);
 		}
 	}
 	
@@ -115,7 +132,7 @@ public class Sponsor {
 		}
 	}
 	
-	public void orderOwnerPetType() {
+	public void orderClubPetType() {
 		for (int i = 0; i < clubs.size()-1; i++) {
 			Club menor = clubs.get(i);
 			int cual = i;
@@ -290,41 +307,229 @@ public class Sponsor {
 		
 	}
 	
-	public String tradSearchNamePet(String n) {
-		String msg = "";
-		for (int i = 0; i < clubs.size(); i++) {
-			msg = clubs.get(i).tradSearchNamePet(n);
+	public boolean tradSearchNameOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchName(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchIdPet(String n) {
-		String msg = "";
-		for (int i = 0; i < clubs.size(); i++) {
-			msg = clubs.get(i).tradSearchIdPet(n);
+	public boolean tradSearchLastName(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchLastName(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchSexPet(int n) {
-		String msg = "";
-		for (int i = 0; i < clubs.size(); i++) {
-			msg = clubs.get(i).tradSearchSexPet(n);
+	public boolean tradSearchIdOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchId(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchTypePet(String n) {
-		String msg = "";
-		for (int i = 0; i < clubs.size(); i++) {
-			msg = clubs.get(i).tradSearchTypePet(n);
+	public boolean tradSearchBirthOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchBirth(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchBirthPet(String n) {
-		String msg = "";
-		for (int i = 0; i < clubs.size(); i++) {
-			msg = clubs.get(i).tradSearchBirthPet(n);
+	public boolean tradSearchPetTypeOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchType(n);
 		}
-		return msg;
+		return founded;
+	}
+	
+	public boolean binSearchNameOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).binSearchName(n);
+		}
+		return founded;
+	}
+	public boolean binSearchLastName(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).binSearchLastName(n);
+		}
+		return founded;
+	}
+	public boolean binSearchIdOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).binSearchId(n);
+		}
+		return founded;
+	}
+	public boolean binSearchBirthOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).binSearchBirth(n);
+		}
+		return founded;
+	}
+	public boolean binSearchPetTypeOwner(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).binSearchType(n);
+		}
+		return founded;
 	}
 	
 	
+	
+	public boolean tradSearchNamePet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchNamePet(n);
+		}
+		return founded;
+	}
+	public boolean tradSearchIdPet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchIdPet(n);
+		}
+		return founded;
+	}
+	public boolean tradSearchSexPet(int n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchSexPet(n);
+		}
+		return founded;
+	}
+	public boolean tradSearchTypePet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchTypePet(n);
+		}
+		return founded;
+	}
+	public boolean tradSearchBirthPet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < clubs.size() && !founded; i++) {
+			founded = clubs.get(i).tradSearchBirthPet(n);
+		}
+		return founded;
+	}
+	
+	public boolean binSearchNamePet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < clubs.size() && !exist; i++) {
+			exist = clubs.get(i).binSearchNamePet(n);
+		}
+		return exist;
+	}
+	public boolean binSearchIdPet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < clubs.size() && !exist; i++) {
+			exist = clubs.get(i).binSearchIdPet(n);
+		}
+		return exist;
+	}
+	public boolean binSearchSexPet(int n) {
+		boolean exist = false;
+		for (int i = 0; i < clubs.size() && !exist; i++) {
+			exist = clubs.get(i).binSearchSexPet(n);
+		}
+		return exist;
+	}
+	public boolean binSearchTypePet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < clubs.size() && !exist; i++) {
+			exist = clubs.get(i).binSearchTypePet(n);
+		}
+		return exist;
+	}
+	public boolean binSearchBirthPet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < clubs.size() && !exist; i++) {
+			exist = clubs.get(i).binSearchBirthPet(n);
+		}
+		return exist;
+	}
+	
+	public void deletePet(String id) {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).deletePet(id);
+		}
+	}
+	
+	public void deleteOwner(String id) {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).deleteOwner(id);
+		}
+	}
+	
+	public void deleteClub(String id) {
+		for (int i = 0; i < clubs.size(); i++) {
+			if(clubs.get(i).getId().equals(id)) {
+				clubs.remove(i);
+			}
+		}
+	}
+	
+	public void orderPetNames() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderPetNames();
+		}
+	}
+	public void orderPetId() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderPetId();;
+		}
+	}
+	public void orderPetSex() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderPetSex();
+		}
+	}
+	public void orderPetBirth() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderPetBirth();
+		}
+	}
+	public void orderPetType() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderPetType();
+		}
+	}
+	
+	public void orderOwnerNames() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderOwnerNames();
+		}
+	}
+	public void orderOwnerLastName() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderOwnerLastName();
+		}
+	}
+	public void orderOwnerId() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderOwnerId();
+		}
+	}
+	public void orderOwnerBirth() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderOwnerBirth();
+		}
+	}
+	public void orderOwnerPetType() {
+		for (int i = 0; i < clubs.size(); i++) {
+			clubs.get(i).orderOwnerPetType();
+		}
+	}
+	
+	public void addPet(Pet p, String idOwner) {
+		for(int i=0; i<clubs.size(); i++) {
+			if(clubs.get(i).sameOwnerId(idOwner)) {
+				clubs.get(i).addPet(p, idOwner);
+			}
+		}
+	}
 }

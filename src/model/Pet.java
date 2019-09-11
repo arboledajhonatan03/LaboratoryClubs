@@ -100,6 +100,11 @@ public class Pet implements Serializable {
 		this.birth = birth;
 	}
 	
+	@Override
+	public String toString() {
+		return "name= \t" + name + ",\t id= \t" + id + ",\t sex= " + sex + ",\t creationDate= \t" + birth + ",\t petType= \t" + type;
+	}
+	
 	/**
 	 * @param p the pet to evalue
 	 * @return the result of compare names

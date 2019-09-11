@@ -32,15 +32,14 @@ public class Club implements Comparable<Club> {
 		this.creationDate = creationDate;
 		this.petType = petType;
 		owners = new ArrayList<>();
-		if(!new File(id).exists()) {
-			try {
-				new File(id).createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		loadData();
+//		if(!new File(id).exists()) {
+//			try {
+//				new File(id).createNewFile();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		loadData();
 	}
 	
 	/**
@@ -115,8 +114,8 @@ public class Club implements Comparable<Club> {
 
 	@Override
 	public String toString() {
-		return "Club [id=" + id + ", name=" + name + ", creationDate=" + creationDate + ", petType=" + petType
-				+ ", owners=" + owners + "]";
+		return "id= \t" + id + ",\t name= \t" + name + ",\t creationDate= \t" + creationDate + ",\t petType= \t" + petType
+				+ ",\t owners= \t" + owners + "";
 	}
 
 	@Override
@@ -147,7 +146,17 @@ public class Club implements Comparable<Club> {
 	public boolean sameOwner(Owner o){
 		boolean same = false;
 		for(int i=0; i<owners.size() && !same; i++){
-			if(owners.get(i).compareTo(o) == 0){
+			if(owners.get(i).compareId(o) == 0){
+				same = true;
+			}
+		}
+		return same;
+	}
+	
+	public boolean sameOwnerId(String idOwner){
+		boolean same = false;
+		for(int i=0; i<owners.size() && !same; i++){
+			if(owners.get(i).getId().equals(idOwner)){
 				same = true;
 			}
 		}
@@ -256,89 +265,54 @@ public class Club implements Comparable<Club> {
 		}
 	}
 	
-	public String tradSearchName(String n) {
-		String msg = "There is not owner with that name.";
-		int count = 0;
-		for (int i = 0; i < owners.size(); i++) {
+	public boolean tradSearchName(String n) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
 			if(owners.get(i).getName().equals(n)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 owner with that same name.";
-		}else if(count > 1) {
-			msg = "There are " + count + " owners with that same name.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchLastName(String l) {
-		String msg = "There is not owner with that last name.";
-		int count = 0;
-		for (int i = 0; i < owners.size(); i++) {
+	public boolean tradSearchLastName(String l) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
 			if(owners.get(i).getLastName().equals(l)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 owner with that same last name.";
-		}else if(count > 1) {
-			msg = "There are " + count + " owners with that same last name.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchId(String identification) {
-		String msg = "There is not owner with that identification.";
-		int count = 0;
-		for (int i = 0; i < owners.size(); i++) {
+	public boolean tradSearchId(String identification) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
 			if(owners.get(i).getId().equals(identification)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 owner with that same identification.";
-		}else if(count > 1) {
-			msg = "There are " + count + " owners with that same identification.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchBirth(String birthD) {
-		String msg = "There is not owner with that birth date.";
-		int count = 0;
-		for (int i = 0; i < owners.size(); i++) {
+	public boolean tradSearchBirth(String birthD) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
 			if(owners.get(i).getBirth().equals(birthD)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 owner with that same birth date.";
-		}else if(count > 1) {
-			msg = "There are " + count + " owners with that same birth date.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchType(String petType) {
-		String msg = "There is not owner with that type.";
-		int count = 0;
-		for (int i = 0; i < owners.size(); i++) {
+	public boolean tradSearchType(String petType) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
 			if(owners.get(i).getPetType().equals(petType)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 owner with that same type.";
-		}else if(count > 1) {
-			msg = "There are " + count + " owners with that same type.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
 	public boolean binSearchName(String n) {
@@ -436,40 +410,127 @@ public class Club implements Comparable<Club> {
 		return finded;
 	}
 	
-	public String tradSearchNamePet(String n) {
-		String msg = "";
-		for (int i = 0; i < owners.size(); i++) {
-			msg = owners.get(i).tradSearchName(n);
+	public boolean tradSearchNamePet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
+			founded = owners.get(i).tradSearchName(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchIdPet(String n) {
-		String msg = "";
-		for (int i = 0; i < owners.size(); i++) {
-			msg = owners.get(i).tradSearchId(n);
+	public boolean tradSearchIdPet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
+			founded = owners.get(i).tradSearchId(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchSexPet(int n) {
-		String msg = "";
-		for (int i = 0; i < owners.size(); i++) {
-			msg = owners.get(i).tradSearchSex(n);
+	public boolean tradSearchSexPet(int n) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
+			founded = owners.get(i).tradSearchSex(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchTypePet(String n) {
-		String msg = "";
-		for (int i = 0; i < owners.size(); i++) {
-			msg = owners.get(i).tradSearchType(n);
+	public boolean tradSearchTypePet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
+			founded = owners.get(i).tradSearchType(n);
 		}
-		return msg;
+		return founded;
 	}
-	public String tradSearchBirthPet(String n) {
-		String msg = "";
-		for (int i = 0; i < owners.size(); i++) {
-			msg = owners.get(i).tradSearchBirth(n);
+	public boolean tradSearchBirthPet(String n) {
+		boolean founded = false;
+		for (int i = 0; i < owners.size() && !founded; i++) {
+			founded = owners.get(i).tradSearchBirth(n);
 		}
-		return msg;
+		return founded;
+	}
+	
+	
+	public boolean binSearchNamePet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < owners.size() && !exist; i++) {
+			exist = owners.get(i).binSearchName(n);
+		}
+		return exist;
+	}
+	public boolean binSearchIdPet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < owners.size() && !exist; i++) {
+			exist = owners.get(i).binSearchId(n);
+		}
+		return exist;
+	}
+	public boolean binSearchSexPet(int n) {
+		boolean exist = false;
+		for (int i = 0; i < owners.size() && !exist; i++) {
+			exist = owners.get(i).binSearchSex(n);
+		}
+		return exist;
+	}
+	public boolean binSearchTypePet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < owners.size() && !exist; i++) {
+			exist = owners.get(i).binSearchType(n);
+		}
+		return exist;
+	}
+	public boolean binSearchBirthPet(String n) {
+		boolean exist = false;
+		for (int i = 0; i < owners.size() && !exist; i++) {
+			exist = owners.get(i).binSearchBirth(n);
+		}
+		return exist;
+	}
+	
+	public void deletePet(String id) {
+		for (int i = 0; i < owners.size(); i++) {
+			owners.get(i).deletePet(id);
+		}
+	}
+	
+	public void deleteOwner(String id) {
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getId().equals(id)) {
+				owners.remove(i);
+			}
+		}
+	}
+	
+	public void orderPetNames() {
+		for (int i = 0; i < owners.size(); i++) {
+			owners.get(i).orderPetNames();
+		}
+	}
+	public void orderPetId() {
+		for (int i = 0; i < owners.size(); i++) {
+			owners.get(i).orderPetId();;
+		}
+	}
+	public void orderPetSex() {
+		for (int i = 0; i < owners.size(); i++) {
+			owners.get(i).orderPetSex();
+		}
+	}
+	public void orderPetBirth() {
+		for (int i = 0; i < owners.size(); i++) {
+			owners.get(i).orderPetBirth();
+		}
+	}
+	public void orderPetType() {
+		for (int i = 0; i < owners.size(); i++) {
+			owners.get(i).orderPetType();
+		}
+	}
+	
+	public void addPet(Pet p, String idOwner) {
+		boolean founded = false;
+		for(int i=0; i < owners.size() && !founded; i++) {
+			if(owners.get(i).getId().equals(idOwner)) {
+				founded = true;
+				owners.get(i).addPet(p);
+			}
+		}
 	}
 }
 

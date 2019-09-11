@@ -161,9 +161,7 @@ public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner>
 	public void addPet(Pet p){
 		boolean equal = false;
 		for(int i=0; i<pets.size() && !equal; i++){
-			if(pets.get(i).compareName(p)==0){
-				
-			}else{
+			if(!(pets.get(i).compareName(p)==0)){
 				pets.add(p);
 			}
 		}
@@ -186,6 +184,12 @@ public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner>
 		}
 	}
 	
+	@Override
+	public String toString() {
+		return "name= \t" + name + ",\t id= \t" + id + ",\t lastName= " + lastName + ",\t creationDate= \t" + birth + ",\t petType= \t" + petType
+				+ ",\t pets= \t" + pets + "";
+	}
+
 	public void orderPetId() {
 		for (int i = 1; i < pets.size(); i++) {
 			for (int j = i; j > 0 && pets.get(j-1).compareId(pets.get(j))>0; j--) {
@@ -235,89 +239,54 @@ public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner>
 		}
 	}
 	
-	public String tradSearchName(String n) {
-		String msg = "There is not pets with that name.";
-		int count = 0;
-		for (int i = 0; i < pets.size(); i++) {
+	public boolean tradSearchName(String n) {
+		boolean founded = false;
+		for (int i = 0; i < pets.size() && !founded; i++) {
 			if(pets.get(i).getName().equals(n)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 pet with that same name.";
-		}else if(count > 1) {
-			msg = "There are " + count + " pets with that same name.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchId(String Id) {
-		String msg = "There is not pets with that identification.";
-		int count = 0;
-		for (int i = 0; i < pets.size(); i++) {
+	public boolean tradSearchId(String Id) {
+		boolean founded = false;
+		for (int i = 0; i < pets.size() && !founded; i++) {
 			if(pets.get(i).getId().equals(Id)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 pet with that same identification.";
-		}else if(count > 1) {
-			msg = "There are " + count + " pets with that same identification.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchSex(int sex) {
-		String msg = "There is not pets with that sex.";
-		int count = 0;
-		for (int i = 0; i < pets.size(); i++) {
+	public boolean tradSearchSex(int sex) {
+		boolean founded = false;
+		for (int i = 0; i < pets.size() && !founded; i++) {
 			if(pets.get(i).getSex()==sex) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 pet with that same sex.";
-		}else if(count > 1) {
-			msg = "There are " + count + " pets with that same sex.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchType(String type) {
-		String msg = "There is not pets of that type.";
-		int count = 0;
-		for (int i = 0; i < pets.size(); i++) {
+	public boolean tradSearchType(String type) {
+		boolean founded = false;
+		for (int i = 0; i < pets.size() && !founded; i++) {
 			if(pets.get(i).getType().equals(type)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is one pet of that same type.";
-		}else if(count > 1) {
-			msg = "There are " + count + " pets of that same type.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
-	public String tradSearchBirth(String birthDate) {
-		String msg = "There is not pets with that birth date.";
-		int count = 0;
-		for (int i = 0; i < pets.size(); i++) {
+	public boolean tradSearchBirth(String birthDate) {
+		boolean founded = false;
+		for (int i = 0; i < pets.size() && !founded; i++) {
 			if(pets.get(i).getBirth().equals(birthDate)) {
-				count++;
+				founded = true;
 			}
 		}
-		if(count == 1) {
-			msg = "There is 1 pet with that same birth date.";
-		}else if(count > 1) {
-			msg = "There are " + count + " pets with that same birth date.";
-		}
-		
-		return msg;
+		return founded;
 	}
 	
 	public boolean binSearchName(String n) {
@@ -417,7 +386,17 @@ public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner>
 
 	@Override
 	public int compare(Owner o1, Owner o2) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
+	
+	public void deletePet(String id) {
+		for (int i = 0; i < pets.size(); i++) {
+			if(pets.get(i).getId().equals(id)) {
+				pets.remove(i);
+			}
+		}
+	}
+	
+	
 }
