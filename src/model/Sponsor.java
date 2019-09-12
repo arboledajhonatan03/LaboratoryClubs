@@ -1,26 +1,27 @@
 package model;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Sponsor {
 
-	public static final String ARCHIVE_PLANE = "C:\\Users\\KD35\\Documents\\ws\\LaboratoryClubs\\";
-	public static final String ARCHIVE_SERIALIZABLE = "C:\\Users\\KD35\\Documents\\ws\\Club";
+	public static final String ARCHIVE_PLANE = "clubs.txt";
 	
 	private ArrayList<Club> clubs;
 	
 	public Sponsor() {
 		clubs = new ArrayList<>();
-//		try {
-//			loadData();
-//		} catch (ClassNotFoundException | IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			loadData();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -61,8 +62,13 @@ public class Sponsor {
 		}
 	}
 	
-	public void addClub(Club c) {
+	public void addClub(Club c) throws IOException {
 		clubs.add(c);
+		File file = new File(ARCHIVE_PLANE);
+		FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
+		BufferedWriter bwriter = new BufferedWriter(writer);
+		bwriter.write(c.toString() + "\n");
+		bwriter.close();
 	}
 	
 	public void loadData() throws IOException, ClassNotFoundException{
@@ -293,7 +299,7 @@ public class Sponsor {
 		return finded;
 	}
 	
-	public void init(){
+	public void init() throws IOException{
 		Club c1 = new Club ("123456789", "Lake's club", "2002/01/14", "Leopard");
 		Club c2 = new Club ("151613549", "Figth's club", "2001/12/14", "Tiger");
 		Club c3 = new Club ("145165864", "Club putipets", "2000/06/21", "Panda bear");
@@ -531,5 +537,49 @@ public class Sponsor {
 				clubs.get(i).addPet(p, idOwner);
 			}
 		}
+	}
+	
+	public String showClubs() {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg += clubs.get(i).toString() + "\n";
+		}
+		return msg;
+	}
+	
+	public String showAllOwners() {
+		String msg = "";
+		for (int i = 0; i < clubs.size(); i++) {
+			msg += clubs.get(i).showOwners();
+		}
+		return msg;
+	}
+	
+	public String showOwners(String idClub) {
+		String msg = "";
+		boolean finded = false;
+		for (int i = 0; i < clubs.size() && !finded; i++) {
+			if(clubs.get(i).getId().equals(idClub)) {
+				msg = clubs.get(i).showOwners();
+				finded = true;
+			}
+		}
+		return msg;
+	}
+	
+	public String showAllPets() {
+		String msg = "";
+		for(int i=0; i < clubs.size(); i++) {
+			msg = clubs.get(i).showAllPets();
+		}
+		return msg;
+	}
+	
+	public String showPet(String idOwner) {
+		String msg = "";
+		for (int i = 0; i <clubs.size(); i++) {
+			msg = clubs.get(i).showPet(idOwner);
+		}
+		return msg;
 	}
 }

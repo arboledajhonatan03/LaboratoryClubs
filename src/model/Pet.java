@@ -102,7 +102,7 @@ public class Pet implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "name= \t" + name + ",\t id= \t" + id + ",\t sex= " + sex + ",\t creationDate= \t" + birth + ",\t petType= \t" + type;
+		return name + "," + id + "," + sex + "," + birth + "," + type;
 	}
 	
 	/**

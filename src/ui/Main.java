@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import model.*;
@@ -16,12 +17,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Main m = new Main();
-		m.init();
 		m.showMenu();
 	}
 	
 	public void welcome() {
-		System.out.println("________________________________________________________________");
+		System.out.println(" ______________________________________________________________ ");
 		System.out.println("|                                                              |");
 		System.out.println("|                                                              |");
 		System.out.println("|                    WELCOME TO OUR SYSTEM                     |");
@@ -330,7 +330,7 @@ public class Main {
 		
 	}
 	
-	private void order() throws InvalidOption {
+	public void order() throws InvalidOption {
 		System.out.println("Please type the option you wish: ");
 		System.out.println("1. Order clubs.");
 		System.out.println("2. Order owners.");
@@ -413,6 +413,10 @@ public class Main {
 					System.out.println(sponsor.getClubs().get(i).getOwners().toString());
 				}
 			}
+			else {
+				String msj = "Type a valid option.";
+				throw new InvalidOption(msj);
+			}
 		}
 		else if(option == 3) {
 			System.out.println("How do you wanna order the pets? ");
@@ -453,10 +457,18 @@ public class Main {
 					System.out.println(sponsor.getClubs().get(i).getOwners().get(i).getPets());
 				}
 			}
+			else {
+				String msj = "Type a valid option.";
+				throw new InvalidOption(msj);
+			}
+		}
+		else {
+			String msj = "Type a valid option.";
+			throw new InvalidOption(msj);
 		}
 	}
 	
-	private void addObject() {
+	public void addObject() throws InvalidOption {
 		System.out.println("Please type the option you wish: ");
 		System.out.println("1. Add club.");
 		System.out.println("2. Add owner.");
@@ -473,7 +485,12 @@ public class Main {
 			System.out.println("Type the kind of pet of the club: ");
 			String type = reader.nextLine();
 			Club c = new Club(name, id, creationDate, type);
-			sponsor.addClub(c);
+			try {
+				sponsor.addClub(c);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(option == 2) {
 			System.out.println("Type the name of the owner: ");
@@ -512,10 +529,13 @@ public class Main {
 			String idOwner = reader.nextLine();
 			sponsor.addPet(p, idOwner);
 		}
-		
+		else {
+			String msj = "Type a valid option.";
+			throw new InvalidOption(msj);
+		}
 	}
 
-	private void deleteObject() {
+	public void deleteObject() throws InvalidOption {
 		System.out.println("Please type the option you wish: ");
 		System.out.println("1. Delete a club.");
 		System.out.println("2. Delete a owner.");
@@ -540,33 +560,63 @@ public class Main {
 			sponsor.deletePet(id);
 			System.out.println("The pet has been deleted!");
 		}
+		else {
+			String msj = "Type a valid option.";
+			throw new InvalidOption(msj);
+		}
 	}
 	
-	private void showObjects() {
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void init() {
-		sponsor.init();
+	public void showObjects() throws InvalidOption {
+		System.out.println("Please type the option you wish: ");
+		System.out.println("1. Show clubs.");
+		System.out.println("2. Show owners.");
+		System.out.println("3. Show pets.");
+		int option = reader.nextInt();
+		reader.nextLine();
+		if(option == 1) {
+			System.out.println(sponsor.showClubs());
+		}
+		else if(option == 2) {
+			System.out.println("Do you want to show the owners of one club or show all owners?");
+			System.out.println("1. One club");
+			System.out.println("2. All owners");
+			int option1 = reader.nextInt();
+			reader.nextLine();
+			if(option1 == 1) {
+				System.out.println("Type the club's id to show owners: ");
+				String idClub = reader.nextLine();
+				System.out.println(sponsor.showOwners(idClub));
+			}
+			else if(option1 == 2) {
+				System.out.println(sponsor.showAllOwners());
+			}
+			else {
+				String msj = "Type a valid option.";
+				throw new InvalidOption(msj);
+			}
+		}
+		else if(option == 3) {
+			System.out.println("Do you want to show the pets of one owner or show all pets?");
+			System.out.println("1. One owner");
+			System.out.println("2. All pets");
+			int option1 = reader.nextInt();
+			reader.nextLine();
+			if(option1 == 1) {
+				System.out.println("Type the owner's id to show pets: ");
+				String idOwner = reader.nextLine();
+				System.out.println(sponsor.showPet(idOwner));
+			}
+			else if(option1 == 2) {
+				System.out.println(sponsor.showAllPets());
+			}
+			else {
+				String msj = "Type a valid option.";
+				throw new InvalidOption(msj);
+			}
+		}
+		else {
+			String msj = "Type a valid option.";
+			throw new InvalidOption(msj);
+		}
 	}
 }

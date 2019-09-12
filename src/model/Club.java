@@ -32,14 +32,14 @@ public class Club implements Comparable<Club> {
 		this.creationDate = creationDate;
 		this.petType = petType;
 		owners = new ArrayList<>();
-//		if(!new File(id).exists()) {
-//			try {
-//				new File(id).createNewFile();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		loadData();
+		if(!new File(id).exists()) {
+			try {
+				new File(id).createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		loadData();
 	}
 	
 	/**
@@ -114,8 +114,7 @@ public class Club implements Comparable<Club> {
 
 	@Override
 	public String toString() {
-		return "id= \t" + id + ",\t name= \t" + name + ",\t creationDate= \t" + creationDate + ",\t petType= \t" + petType
-				+ ",\t owners= \t" + owners + "";
+		return id + "," + name + "," + creationDate + "," + petType;
 	}
 
 	@Override
@@ -531,6 +530,32 @@ public class Club implements Comparable<Club> {
 				owners.get(i).addPet(p);
 			}
 		}
+	}
+	
+	public String showOwners() {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg += owners.get(i).toString() + "\n";
+		}
+		return msg;
+	}
+	
+	public String showAllPets() {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			msg += owners.get(i).showPets();
+		}
+		return msg;
+	}
+	
+	public String showPet(String idOwner) {
+		String msg = "";
+		for (int i = 0; i < owners.size(); i++) {
+			if(owners.get(i).getId().equals(idOwner)) {
+				msg = owners.get(i).showPets();
+			}
+		}
+		return msg;
 	}
 }
 

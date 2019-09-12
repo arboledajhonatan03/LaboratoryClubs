@@ -186,8 +186,7 @@ public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner>
 	
 	@Override
 	public String toString() {
-		return "name= \t" + name + ",\t id= \t" + id + ",\t lastName= " + lastName + ",\t creationDate= \t" + birth + ",\t petType= \t" + petType
-				+ ",\t pets= \t" + pets + "";
+		return name + "," + id + "," + lastName + "," + birth + "," + petType;
 	}
 
 	public void orderPetId() {
@@ -398,5 +397,11 @@ public class Owner implements Serializable, Comparable<Owner>, Comparator<Owner>
 		}
 	}
 	
-	
+	public String showPets() {
+		String msg = "";
+		for (int i = 0; i < pets.size(); i++) {
+			msg += pets.get(i).toString() + "\n";
+		}
+		return msg;
+	}
 }
