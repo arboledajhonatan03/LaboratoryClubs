@@ -348,25 +348,25 @@ public class Main {
 			if(option1 == 1) {
 				sponsor.orderClubNames();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).toString());
+					System.out.println(sponsor.getClubs().get(i).toString() + "\n");
 				}
 			}
 			else if(option1 == 2) {
 				sponsor.orderClubId();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).toString());
+					System.out.println(sponsor.getClubs().get(i).toString() + "\n");
 				}
 			}
 			else if(option1 == 3) {
 				sponsor.orderClubCreationDate();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).toString());
+					System.out.println(sponsor.getClubs().get(i).toString() + "\n");
 				}
 			}
 			else if(option1 == 4) {
 				sponsor.orderClubPetType();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).toString());
+					System.out.println(sponsor.getClubs().get(i).toString() + "\n");
 				}
 			}
 			else {
@@ -386,31 +386,31 @@ public class Main {
 			if(option1 == 1) {
 				sponsor.orderOwnerNames();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).getOwners().toString());
+					System.out.println(sponsor.getClubs().get(i).getOwners().toString() + "\n");
 				}
 			}
 			else if(option1 == 2) {
 				sponsor.orderOwnerLastName();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).getOwners().toString());
+					System.out.println(sponsor.getClubs().get(i).getOwners().toString() + "\n");
 				}
 			}
 			else if(option1 == 3) {
 				sponsor.orderOwnerId();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).getOwners().toString());
+					System.out.println(sponsor.getClubs().get(i).getOwners().toString() + "\n");
 				}
 			}
 			else if(option1 == 4) {
 				sponsor.orderOwnerBirth();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).getOwners().toString());
+					System.out.println(sponsor.getClubs().get(i).getOwners().toString() + "\n");
 				}
 			}
 			else if(option1 == 5) {
 				sponsor.orderOwnerPetType();
 				for (int i = 0; i < sponsor.getClubs().size(); i++) {
-					System.out.println(sponsor.getClubs().get(i).getOwners().toString());
+					System.out.println(sponsor.getClubs().get(i).getOwners().toString() + "\n");
 				}
 			}
 			else {
@@ -484,7 +484,7 @@ public class Main {
 			String creationDate = reader.nextLine();
 			System.out.println("Type the kind of pet of the club: ");
 			String type = reader.nextLine();
-			Club c = new Club(name, id, creationDate, type);
+			Club c = new Club(id, name, creationDate, type);
 			try {
 				sponsor.addClub(c);
 			} catch (IOException e) {

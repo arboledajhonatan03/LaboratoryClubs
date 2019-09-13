@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,10 +40,18 @@ public class Club implements Comparable<Club> {
 				e.printStackTrace();
 			}
 		}
-		loadData();
+		try {
+			loadData();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	/**
+	/** 
 	 * @return the name
 	 */
 	public String getName() {
@@ -254,15 +263,44 @@ public class Club implements Comparable<Club> {
 		object.close();
 	}
 	
-	public void loadData() {
+	public void loadData() throws FileNotFoundException, IOException, ClassNotFoundException {
 		File file = new File(id);
+		ObjectInputStream object = new ObjectInputStream(new FileInputStream(file));
+		Owner aux = (Owner)object.readObject();
 		try {
-			ObjectInputStream object = new ObjectInputStream(new FileInputStream(file));
-			owners = (ArrayList<Owner>)object.readObject();
-		}catch(Exception exception){
+			while(aux != null) {
+				owners.add(aux);
+				aux = (Owner)object.readObject();
+			}
+		} catch(Exception e) {
 			
 		}
+		object.close();
 	}
+	
+//	public void loadData() throws FileNotFoundException, IOException, ClassNotFoundException {
+//		File file = new File(id + ".csv");
+//		BufferedReader breader = new BufferedReader(new FileReader(file));
+//		String line;
+//		File f1 = new File(id);
+//		ObjectOutputStream object = new ObjectOutputStream(new FileOutputStream(f1));
+//		try {
+//			while((line = breader.readLine()) != null) {
+//				if(!line.equals("name,lastName,id,birth,typePet,namePet,idPet,sexPet,type,birthDate")) {
+//					String[] s = line.split(",");
+//					Owner o = new Owner(s[0], s[1], s[2], s[3], s[4]);
+//					Pet p = new Pet(s[5], s[6], Integer.parseInt(s[7]), s[8], s[9]);
+//					o.addPet(p);
+//					owners.add(o);
+//					object.writeObject(o);
+//				}
+//			}
+//		} catch(IndexOutOfBoundsException e) {
+//			
+//		}
+//		object.close();
+//		breader.close();
+//	}
 	
 	public boolean tradSearchName(String n) {
 		boolean founded = false;
@@ -550,9 +588,11 @@ public class Club implements Comparable<Club> {
 	
 	public String showPet(String idOwner) {
 		String msg = "";
-		for (int i = 0; i < owners.size(); i++) {
+		boolean finded = false;
+		for (int i = 0; i < owners.size() && !finded; i++) {
 			if(owners.get(i).getId().equals(idOwner)) {
 				msg = owners.get(i).showPets();
+				finded = true;
 			}
 		}
 		return msg;
